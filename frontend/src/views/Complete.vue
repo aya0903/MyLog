@@ -22,14 +22,10 @@ function close() {
 <template>
   <div class="complete-screen">
     <!-- ロゴ画像：画面上中央 -->
-    <div class="logo-container">
-      <img src="../assets/MyLog_logo.png" alt="ロゴ" class="logo" />
-    </div>
-
-    <!-- 中央メッセージ -->
-    <div class="message">
-      {{ itemName }}が完了しました。
-    </div>
+<div class="logo-message-group">
+  <img src="../assets/MyLog_logo.png" alt="ロゴ" class="logo" />
+  <div class="message">{{ itemName }}が完了しました。</div>
+</div>
 
     <!-- 下部の閉じるボタン -->
     <div class="button-container">
@@ -40,29 +36,29 @@ function close() {
 
 <style scoped>
 .complete-screen {
-  position: relative;
   height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 縦方向に中央寄せ */
+  align-items: center;     /* 横方向に中央寄せ */
+  gap: 200px;               /* 要素間のスペース */
+}
+
+/* ロゴと完了の文字が持ってる面積*/
+.logo-message-group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 200px;
 }
 
-/* ロゴは画面上中央に固定 */
-.logo-container {
-  position: absolute;
-  width: 200px;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
+/* 画像 */
 .logo {
   max-height: 60px;
-  /* 必要に応じてサイズ調整 */
 }
 
-/* 中央のメッセージ */
+/* 完了の文字 */
 .message {
   font-size: 1.5rem;
   font-weight: bold;
@@ -70,17 +66,11 @@ function close() {
   margin: 0 20px;
 }
 
-/* 下部のボタン */
-.button-container {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
+/* 閉じるボタン */
 button {
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
 }
+
 </style>
