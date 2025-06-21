@@ -8,7 +8,7 @@ const router = useRouter()
 
 const form = reactive({
   name: '',
-  birthdate: '',
+  birthday: '',
   gender: '',
   email: '',
   password: '',
@@ -36,10 +36,12 @@ const submitForm = () => {
 
         <el-form-item label="生年月日">
           <el-date-picker
-            v-model="form.birthdate"
+            v-model="form.birthday"
             type="date"
             placeholder="生年月日を選択してください"
-            format="YYYY/MM/DD"
+            format="YYYY年MM月DD日"
+            value-format="YYYY-MM-DD"
+            :default-value="new Date('2000-04-01')"
           />
         </el-form-item>
 

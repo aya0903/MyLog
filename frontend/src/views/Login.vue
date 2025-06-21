@@ -18,7 +18,7 @@
         v-model="password"
         show-password
       ></el-input>
-      <el-link type="primary" class="register-link">
+      <el-link type="primary" class="register-link" href="/register">
         新規会員登録はこちら
       </el-link>
     </main>
