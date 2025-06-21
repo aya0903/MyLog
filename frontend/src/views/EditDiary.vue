@@ -13,9 +13,10 @@ const form = reactive({
   emotion: 'にこにこ'
 })
 
-const value = ref('')
+const categoryValue = ref('')
+const emotionValue = ref('')
 
-const options = [
+const categoryOptions = [
   {
     value: '自分',
     label: '自分',
@@ -39,6 +40,36 @@ const options = [
   {
     value: 'お出かけ',
     label: 'お出かけ',
+  },
+]
+
+const emotionOptions = [
+  {
+    value: 'きらきら',
+    label: 'きらきら',
+  },
+  {
+    value: 'うきうき',
+    label: 'うきうき',
+  },
+  {
+    value: 'にこにこ',
+    label: 'にこにこ',
+  },
+  {
+    value: 'ふつう',
+    label: 'ふつう',
+  },
+  {
+    value: 'もやもや',
+    label: 'もやもや',
+  },
+  {
+    value: 'しょんぼり',
+    label: 'しょんぼり',
+  },  {
+    value: 'うるうる',
+    label: 'うるうる',
   },
 ]
 
@@ -76,16 +107,30 @@ const updateDiary = () => {
   </div>
 
   <el-select
-      v-model="value"
+      v-model="categoryValue"
       placeholder="カテゴリー"
       size="large"
       style="width: 240px"
     >
       <el-option
-        v-for="item in options"
+        v-for="item in categoryOptions"
         :key="item.value"
         :label="item.label"
-        :value="item.value"
+        :categoryValue="item.value"
+      />
+    </el-select>
+
+  <el-select
+      v-model="emotionValue"
+      placeholder="感情"
+      size="large"
+      style="width: 240px"
+    >
+      <el-option
+        v-for="item in emotionOptions"
+        :key="item.value"
+        :label="item.label"
+        :emotionValue="item.value"
       />
     </el-select>
 
