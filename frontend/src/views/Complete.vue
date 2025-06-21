@@ -57,7 +57,7 @@ function close() {
 
 /* 画像 */
 .logo {
-  height: 300px;
+  height: 100px;
 }
 
 /* 完了の文字 */
