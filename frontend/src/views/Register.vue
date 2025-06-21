@@ -1,3 +1,5 @@
+<!-- 会員登録画面 -->
+
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'

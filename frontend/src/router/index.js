@@ -8,6 +8,7 @@ import PostDiary from '../views/PostDiary.vue'
 import EmotionSelect from '../views/EmotionSelect.vue'
 import CategorySelect from '../views/CategorySelect.vue'
 import DiaryDetail from '../views/DiaryDetail.vue'
+import EditDiary from '../views/EditDiary.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,8 +44,8 @@ const router = createRouter({
       component: PostDiary,
     },
     {
-      path: '/select-emotion',
-      name: 'select-emotion',
+      path: '/emotion-select',
+      name: 'emotion-select',
       component: EmotionSelect,
     },
     {
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/diary-detail',
       name: 'diary-detail',
       component: DiaryDetail,
+    },
+    {
+      path: '/edit-Diary',
+      name: 'edit-Diary',
+      component: EditDiary,
     },
   ],
 })

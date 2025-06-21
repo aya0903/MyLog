@@ -1,3 +1,5 @@
+<!-- 感情選択画面 -->
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'

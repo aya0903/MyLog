@@ -1,9 +1,10 @@
+<!-- 日記詳細画面 -->
+
 <script setup>
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// 仮データ（実際は props や API から取得）
 const diary = {
   date: '2025-06-08',
   content: '今日はとても良い一日でした。',

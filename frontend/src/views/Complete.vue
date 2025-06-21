@@ -1,3 +1,5 @@
+<!-- 完了画面 -->
+
 <script setup>
 import { useRouter } from 'vue-router'
 

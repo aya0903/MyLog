@@ -1,3 +1,4 @@
+<!-- カテゴリー選択画面 -->
 <script setup>
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
