@@ -3,23 +3,27 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
-const router = useRouter()
+import { useCompleteStore } from '@/stores/complete'
 
 const name = ref("")
 const birthday = ref("")
 const gender = ref("")
 
+const router = useRouter()
+const CompleteStore = useCompleteStore()
+
 const back = () => router.back()
 
+const submit = () => {
+  router.push('/complete')
+  CompleteStore.update('会員情報の編集', '/my-page')
+}
 </script>
 
 <template>
   <p class="title">会員情報編集</p>
-  
   <div class="edit-register"> 
     <el-input class="input-box" placeholder="ニックネーム" v-model="name"></el-input>
-
     <el-date-picker
       class="input-box"
       v-model="birthday"
@@ -29,7 +33,6 @@ const back = () => router.back()
       value-format="YYYY-MM-DD"
       :default-value="new Date('2000-04-01')"
     />
-
     <div class="gender">
       <div class="radio-label">性別</div>
       <el-radio-group v-model="gender" class="radio-group">
@@ -38,7 +41,6 @@ const back = () => router.back()
         <el-radio label="その他" />
       </el-radio-group>
     </div>
-
     <div class="button-group">
       <el-button type="info" plain @click="back">戻る</el-button>
       <el-button type="primary" plain @click="submit">送信</el-button>

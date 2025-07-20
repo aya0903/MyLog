@@ -2,7 +2,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { nextTick, reactive } from 'vue'
+import { reactive } from 'vue'
 
 const router = useRouter()
 
@@ -11,12 +11,10 @@ const form = reactive({
   image: null,
 })
 
-const back = () => {
-  router.push('/') // ホームに戻る
-}
+const back = () => router.back()
 
 const next = () => {
-  router.push('/emotion') //感情選択画面に移動
+  router.push('/emotion')
 }
 </script>
 

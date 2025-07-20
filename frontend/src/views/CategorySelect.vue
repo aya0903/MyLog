@@ -18,9 +18,7 @@ const selectCategory = (category) => {
   selectedCategory.name = category
 }
 
-const back = () => {
-  router.back('/emotion')
-}
+const back = () => router.back()
 
 const submit = () => {
   if (!selectedCategory.name) {

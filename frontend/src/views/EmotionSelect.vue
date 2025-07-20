@@ -22,9 +22,7 @@ const selectEmotion = (emotion) => {
   selected.value = emotion
 }
 
-const back = () => {
-  router.back()
-}
+const back = () => router.back()
 
 const submit = () => {
   router.push('/category')

@@ -2,29 +2,26 @@
 
 <script setup>
 import { ref } from 'vue'
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { useCompleteStore } from '@/stores/complete'
 
 const password = ref("")
 const NewPassword = ref("")
 const ConfirmPassword = ref("")
 
-// const back = () => router.back() // 一つ前の画面に戻る
-// const submit = () => {
-//   router.push({
-//     name: 'complete',
-//     params: {
-//       itemName: '日記データ',
-//       redirectPath: '/login'
-//     }
-//   })
-// }//完了画面へ
+const router = useRouter()
+const completeStore =useCompleteStore()
 
+const back = () => router.back()
+
+const submit = () => {
+  router.push('/complete')
+  completeStore.update('パスワードの再設定', '/my-page')
+}
 </script>
-
 
 <template>
   <p class="title">パスワード再設定</p>
-
   <div class="password">
     <el-input class="edit-password" v-model="password" placeholder="現在のパスワード" />
 

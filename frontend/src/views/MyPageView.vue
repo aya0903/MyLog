@@ -24,17 +24,16 @@ const confirmLogout = () => {
   router.push('/login')
 }
 
-// ページ遷移関数
-const goToEditProfile = () => router.push('/edit-profile')
-const goToEditEmail = () => router.push('/edit-email')
-const goToEditPassword = () => router.push('/edit-password')
+const Editregister = () => router.push('/edit-register')
+const EditEmail = () => router.push('/edit-email')
+const EditPassword = () => router.push('/edit-password')
 
 </script>
 
 
 <template>
   <div class="my-page">
-    <p class="title">会員情報</p>
+    <p class="title">マイページ</p>
 
     <!-- 会員情報ボックス -->
     <p class="mt">ニックネーム</p>
@@ -47,7 +46,7 @@ const goToEditPassword = () => router.push('/edit-password')
     <el-input class="" v-model="gender"></el-input>
 
     <div class="edit-button">
-      <el-button type="primary" @click="goToEditProfile" plain>会員情報編集</el-button>
+      <el-button type="primary" @click="Editregister" plain>会員情報編集</el-button>
     </div>
     
     <!-- メールアドレスボックス -->
@@ -57,7 +56,7 @@ const goToEditPassword = () => router.push('/edit-password')
         <template #suffix>
           <el-button
             type="text"
-            @click="goToEditEmail"
+            @click="EditEmail"
             class="arrow-button"
           >
             <el-icon><ArrowRight /></el-icon>
@@ -74,7 +73,7 @@ const goToEditPassword = () => router.push('/edit-password')
         <template #suffix>
           <el-button
             type="text"
-            @click="goToEditPassword"
+            @click="EditPassword"
             class="arrow-button"
           >
             <el-icon><ArrowRight /></el-icon>

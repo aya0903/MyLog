@@ -1,10 +1,12 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useCompleteStore } from '@/stores/complete'
 
 const router = useRouter()
+const completeStore = useCompleteStore()
 
-// 仮初期データ
+
 const form = reactive({
   content: '今日は楽しい日だった！',
   image: null,
@@ -81,13 +83,11 @@ const handleImageChange = (e) => {
   }
 }
 
-const goBack = () => {
-  router.push('/diary-detail')
-}
+const back = () => router.back()
 
-const updateDiary = () => {
-  console.log('更新データ:', form)
+const submit = () => {
   router.push('/complete')
+  completeStore.update('日記の編集', '/')
 }
 </script>
 
@@ -134,10 +134,9 @@ const updateDiary = () => {
       />
       </el-select>
   </div>
-
     <div class="buttons">
-      <button @click="goBack">戻る</button>
-      <button @click="updateDiary">更新</button>
+      <el-button type="info" plain @click="back">戻る</el-button>
+      <el-button type="primary" plain @click="submit">投稿</el-button>
     </div>
   </div>
 </template>
@@ -180,13 +179,11 @@ const updateDiary = () => {
   gap: 30px;
   margin-bottom: 10px;
 }
+
 .buttons {
-  display: flex;
-  gap: 50px;
-  margin-top: 50px;
-}
-button {
-  height: 40px;
-  width: 80px;
+  display: flex;  
+  justify-content: space-evenly;
+  width: 300px;
+  padding-top: 70px;
 }
 </style>

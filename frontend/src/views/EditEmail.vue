@@ -2,24 +2,22 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
-const router = useRouter()
+import { useCompleteStore } from '@/stores/complete'
 
 const email = ref('')
 const confirmEmail = ref('')
 
-const back = () => router.back() // 一つ前の画面に戻る
-const submit = () => {
-  router.push({
-    name: 'complete',
-    params: {
-      itemName: '日記データ',
-      redirectPath: '/login'
-    }
-  })
-}//完了画面へ
-</script>
+const router = useRouter()
 
+const CompleteStore = useCompleteStore()
+
+const back = () => router.back()
+
+const submit = () => {
+  router.push('/complete')
+  CompleteStore.update('メールアドレスの再設定', '/my-page')
+}
+</script>
 
 <template>
   <p class="title">メールアドレス再設定</p>

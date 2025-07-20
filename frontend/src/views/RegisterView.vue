@@ -17,9 +17,7 @@ const form = reactive({
   password: '',
 })
 
-const back = () => {
-  router.push('/login')
-}
+const back = () => router.back()
 
 const submit = () => {
   router.push('/complete')
@@ -66,7 +64,6 @@ const submit = () => {
     </el-form>
   </div>
 </template>
-
 
 <style scoped>
 .title {

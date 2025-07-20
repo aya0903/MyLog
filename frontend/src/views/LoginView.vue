@@ -3,17 +3,20 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { useCompleteStore } from '@/stores/complete'
 
 const router = useRouter()
 const mailAddress = ref("")
 const password = ref("")
+const completeStore = useCompleteStore()
 
 const register = () => {
   router.push('/register')
 }
 
 const submit = () => {
-  router.push('/')
+  router.push('/complete')
+  completeStore.update('ログイン', '/')
 }
 </script>
 
