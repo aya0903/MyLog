@@ -7,13 +7,13 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const emotions = [
-  { label: 'きらきら', color: '#fba09d' },
-  { label: 'うきうき', color: '#fbb39d' },
-  { label: 'にこにこ', color: '#fbc99d' },
-  { label: 'ふつう', color: '#fbdf9d' },
-  { label: 'もやもや', color: '#e9e5af' },
-  { label: 'しょんぼり', color: '#c8ddbb' },
-  { label: 'うるうる', color: '#b6e2dd' },
+  { label: 'きらきら', color: '#8E71C7' },
+  { label: 'うきうき', color: '#409EFF' },
+  { label: 'にこにこ', color: '#a0cfff' },
+  { label: 'ふつう', color: '#67C23A' },
+  { label: 'もやもや', color: '#F5D69B' },
+  { label: 'しょんぼり', color: '#E6A23C' },
+  { label: 'うるうる', color: '#F56C6C' },
 ]
 
 const selected = ref('')
@@ -22,19 +22,18 @@ const selectEmotion = (emotion) => {
   selected.value = emotion
 }
 
-const goBack = () => {
-  router.push('/post-diary')
+const back = () => {
+  router.back()
 }
 
-const goNext = () => {
-  console.log('選択された感情:', selected.value)
-  router.push('/complete') // 仮の遷移先
+const submit = () => {
+  router.push('/category')
 }
 </script>
 
 <template>
   <div class="emotion-container">
-    <h2 class="title">どんなきもち？</h2>
+    <p class="title">どんなきもち？</p>
     <div class="emotion-list">
       <div
         v-for="emotion in emotions"
@@ -47,27 +46,25 @@ const goNext = () => {
       </div>
     </div>
     <div class="button-group">
-      <el-button class="big-button" @click="goBack">戻る</el-button>
-      <el-button class="big-button" type="primary" @click="goNext" :disabled="!selected">次へ</el-button>
+      <el-button type="info" plain @click="back">戻る</el-button>
+      <el-button type="primary" plain @click="submit">次へ</el-button>
     </div>
   </div>
 </template>
 
 <style scoped>
 .emotion-container {
-  height: 100vh;
-  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
   justify-content: center;
 }
 
 .title {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+  padding-bottom: 20px;
+  font-size: 30px;
+  padding-top: 100px;
+  text-align: center;
 }
 
 .emotion-list {
@@ -78,27 +75,16 @@ const goNext = () => {
 }
 
 .emotion-box {
-  padding: 15px;
+  padding: 10px;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 15px;
   border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.emotion-box:hover {
-  opacity: 0.8;
 }
 
 .button-group {
-  display: flex;
-  justify-content: space-between;
+  display: flex;  
+  justify-content: space-evenly;
   width: 300px;
-  margin-top: 30px;
-}
-
-.big-button {
-  padding: 15px 30px;
-  font-size: 1.1rem;
+  padding-top: 50px;
 }
 </style>

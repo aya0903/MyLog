@@ -10,8 +10,9 @@ import ja from 'element-plus/es/locale/lang/ja'
 import 'element-plus/dist/index.css'
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 app.use(ElementPlus, {
   locale: ja,

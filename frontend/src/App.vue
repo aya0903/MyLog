@@ -3,19 +3,14 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <!-- <header>
-    <div class="wrapper">
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/complete">Copmlete</RouterLink>
-      </nav>
-    </div>
-  </header> -->
-
-  <RouterView />
+<div class="app-container">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
+/* グローバルに適用 */
+.app-container {
+  width: 100vw;
+}
 </style>

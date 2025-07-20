@@ -2,6 +2,9 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
+import { useCompleteStore } from '@/stores/complete'
+
+const completeStore = useCompleteStore()
 
 const router = useRouter()
 
@@ -15,23 +18,24 @@ const selectCategory = (category) => {
   selectedCategory.name = category
 }
 
-const goBack = () => {
-  router.back()
+const back = () => {
+  router.back('/emotion')
 }
 
-const goNext = () => {
+const submit = () => {
   if (!selectedCategory.name) {
     alert('なにについて？')
     return
   }
-  console.log('選択カテゴリー:', selectedCategory.name)
-  router.push('/next-screen') // 次の画面に遷移（適宜変えてね）
+  router.push('/complete')
+  completeStore.update('日記の投稿', '/')
+  
 }
 </script>
 
 <template>
+  <p class="title">なにについて？</p>
   <div class="outer-container">
-    <h2>なにについて？</h2>
     <div class="category-list">
       <div
         v-for="category in categories"
@@ -45,42 +49,39 @@ const goNext = () => {
     </div>
 
     <div class="button-group">
-      <button @click="goBack" class="big-button">戻る</button>
-      <button @click="goNext" class="big-button">投稿</button>
+      <el-button type="info" plain @click="back">戻る</el-button>
+      <el-button type="primary" plain @click="submit">投稿</el-button>
     </div>
   </div>
 </template>
 
 <style scoped>
+.title {
+  padding-bottom: 20px;
+  font-size: 30px;
+  padding-top: 100px;
+  text-align: center;
+}
 .outer-container {
-  height: 100vh;
-  width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative;
+  justify-content: center;
 }
 
 .category-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin: 20px 0;
+  gap: 15px;
   width: 300px;
 }
 
 .category-box {
-  padding: 20px;
   background-color: #ddd;
-  border-radius: 8px;
-  cursor: pointer;
-  user-select: none;
+  padding: 10px;
   text-align: center;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+  font-size: 15px;
+  border-radius: 10px;
 }
 
 .category-box:hover {
@@ -88,19 +89,14 @@ const goNext = () => {
 }
 
 .category-box.selected {
-  background-color: #87cefa; /* 選択中は色変える */
+  background-color: #87cefa;
   color: white;
 }
 
 .button-group {
-  display: flex;
-  justify-content: space-between;
+  display: flex;  
+  justify-content: space-evenly;
   width: 300px;
-}
-
-.big-button {
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  cursor: pointer;
+  padding-top: 50px;
 }
 </style>
