@@ -5,9 +5,6 @@ import { useRouter } from 'vue-router'
 import { useCompleteStore } from '@/stores/complete'
 
 const completeStore =  useCompleteStore()
-
-console.log(completeStore.$state)
-
 const router = useRouter()
 
 function close() {

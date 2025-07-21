@@ -2,21 +2,60 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, onMounted  } from 'vue'
 import { useCompleteStore } from '@/stores/complete'
+import { ElMessage } from 'element-plus'
+import axios from 'axios'
 
 const router = useRouter()
-const mailAddress = ref("")
-const password = ref("")
 const completeStore = useCompleteStore()
+const email = ref("")
+const password = ref("")
+const users = ref([])
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/users')
+    users.value = response.data
+    console.log("取得したデータ:", response.data)
+  } catch (error) {
+    console.error("ユーザー取得エラー:", error)
+  }
+})
 
 const register = () => {
   router.push('/register')
 }
 
-const submit = () => {
-  router.push('/complete')
-  completeStore.update('ログイン', '/')
+const submit = async () => {
+  if (!email.value || !password.value) {
+    ElMessage.error("未入力の項目があります")
+    return 
+  }
+  try {
+    const response = await axios.post('http://localhost:3000/api/login', {
+      email: email.value,
+      password: password.value
+    })
+
+    if (response.data.success) {
+      // ログイン成功
+      completeStore.update('ログイン', '/')
+      router.push('/complete')
+
+      // TODO piniaにログイン者の情報を管理する処理を追加
+    } else {
+      // ログイン失敗
+      ElMessage.error('メールアドレスとパスワードが一致しません。')
+    }
+  } catch (error) {
+    console.log("ログインエラー:", error)
+    if (error.response.data.message) {
+      ElMessage.error(error.response.data.message)
+    } else {
+      ElMessage.error('通信エラーが発生しました。')
+    }
+  }
 }
 </script>
 
@@ -28,7 +67,7 @@ const submit = () => {
       <el-input
         class="input"
         placeholder="メールアドレス"
-        v-model="mailAddress"
+        v-model="email"
       ></el-input>
       <el-input
         class="input"
