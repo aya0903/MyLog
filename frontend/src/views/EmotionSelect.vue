@@ -37,7 +37,7 @@ const submit = () => {
         v-for="emotion in emotions"
         :key="emotion.label"
         class="emotion-box"
-        :style="{ backgroundColor: emotion.color, border: selected === emotion.label ? '3px solid #333' : 'none' }"
+        :style="{ backgroundColor: emotion.color, border: selected === emotion.label ? '3px solid #d3d3d3' : 'none' }"
         @click="selectEmotion(emotion.label)"
       >
         {{ emotion.label }}

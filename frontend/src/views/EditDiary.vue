@@ -152,28 +152,34 @@ const submit = () => {
   box-sizing: border-box;
   gap: 20px;
 }
+
 .textarea {
   width: 300px;
   height: 150px;
   padding: 10px;
   resize: none;
 }
+
 .file-input {
   margin-top: 10px;
 }
+
 .preview-image {
   max-width: 200px;
   margin-top: 10px;
 }
+
 .tags {
   display: flex;
   gap: 85px;
 }
+
 .tag {
   background-color: #f0f0f0;
   padding: 5px 10px;
   border-radius: 5px;
 }
+
 .select-container {
   display: flex;
   gap: 30px;
