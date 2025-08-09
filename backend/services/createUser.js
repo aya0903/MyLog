@@ -24,7 +24,7 @@ router.post("/", (req, res) => {
     if (results.length > 0) {
       return res.status(401).json({
         success: false,
-        message: "すでにアカウントが存在します。",
+        message: "すでにアカウントが存在します",
       });
     }
   });
