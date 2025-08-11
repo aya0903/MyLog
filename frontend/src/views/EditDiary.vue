@@ -1,10 +1,12 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useCompleteStore } from '@/stores/complete'
 
 const router = useRouter()
+const completeStore = useCompleteStore()
 
-// 仮初期データ
+
 const form = reactive({
   content: '今日は楽しい日だった！',
   image: null,
@@ -81,13 +83,11 @@ const handleImageChange = (e) => {
   }
 }
 
-const goBack = () => {
-  router.push('/diary-detail')
-}
+const back = () => router.back()
 
-const updateDiary = () => {
-  console.log('更新データ:', form)
+const submit = () => {
   router.push('/complete')
+  completeStore.update('日記の編集', '/')
 }
 </script>
 
@@ -106,37 +106,37 @@ const updateDiary = () => {
     <div class="tag" @click="goToEmotionSelect">感情：{{ form.emotion }}</div>
   </div>
 
-  <el-select
+  <div class="select-container">
+    <el-select
       v-model="categoryValue"
       placeholder="カテゴリー"
-      size="large"
-      style="width: 240px"
-    >
+      style="width: 180px"
+      >
       <el-option
         v-for="item in categoryOptions"
         :key="item.value"
         :label="item.label"
-        :categoryValue="item.value"
+        :value="item.value"
       />
-    </el-select>
+      </el-select>
 
-  <el-select
-      v-model="emotionValue"
-      placeholder="感情"
-      size="large"
-      style="width: 240px"
-    >
+      <el-select
+        v-model="emotionValue"
+        placeholder="感情"
+        style="width: 180px"
+        placement="bottom-start"
+      >
       <el-option
         v-for="item in emotionOptions"
         :key="item.value"
         :label="item.label"
-        :emotionValue="item.value"
+        :value="item.value"
       />
-    </el-select>
-
+      </el-select>
+  </div>
     <div class="buttons">
-      <button @click="goBack">戻る</button>
-      <button @click="updateDiary">更新</button>
+      <el-button type="info" plain @click="back">戻る</el-button>
+      <el-button type="primary" plain @click="submit">投稿</el-button>
     </div>
   </div>
 </template>
@@ -144,7 +144,6 @@ const updateDiary = () => {
 <style scoped>
 .container {
   height: 100vh;
-  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -153,35 +152,44 @@ const updateDiary = () => {
   box-sizing: border-box;
   gap: 20px;
 }
+
 .textarea {
   width: 300px;
   height: 150px;
   padding: 10px;
   resize: none;
 }
+
 .file-input {
   margin-top: 10px;
 }
+
 .preview-image {
   max-width: 200px;
   margin-top: 10px;
 }
+
 .tags {
   display: flex;
-  gap: 10px;
+  gap: 85px;
 }
+
 .tag {
   background-color: #f0f0f0;
   padding: 5px 10px;
   border-radius: 5px;
 }
-.buttons {
+
+.select-container {
   display: flex;
-  gap: 20px;
-  margin-top: 50px;
+  gap: 30px;
+  margin-bottom: 10px;
 }
-button {
-  height: 50px;
-  width: 150px;
+
+.buttons {
+  display: flex;  
+  justify-content: space-evenly;
+  width: 300px;
+  padding-top: 70px;
 }
 </style>
