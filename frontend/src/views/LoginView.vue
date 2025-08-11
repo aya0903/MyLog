@@ -5,9 +5,11 @@ import { useRouter } from 'vue-router'
 import { ref, onMounted  } from 'vue'
 import { useCompleteStore } from '@/stores/complete'
 import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/stores/user'
 import axios from 'axios'
 
 const router = useRouter()
+const userStore = useUserStore()
 const completeStore = useCompleteStore()
 const email = ref("")
 const password = ref("")
@@ -42,8 +44,11 @@ const submit = async () => {
       // ログイン成功
       completeStore.update('ログイン', '/')
       router.push('/complete')
-
-      // TODO piniaにログイン者の情報を管理する処理を追加
+      
+      // ログイン者の状態管理
+      const { id, name, birthday, gender, email, password } = response.data.user
+      const convertBirthday = new Date(birthday).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })
+      userStore.update(id, name, convertBirthday, gender, email, password)
     } else {
       // ログイン失敗
       ElMessage.error('メールアドレスとパスワードが一致しません。')

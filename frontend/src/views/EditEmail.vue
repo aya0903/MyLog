@@ -3,19 +3,67 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCompleteStore } from '@/stores/complete'
+import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/stores/user'
+import axios from 'axios'
+
+const router = useRouter()
+const userStore = useUserStore()
+const CompleteStore = useCompleteStore()
 
 const email = ref('')
 const confirmEmail = ref('')
 
-const router = useRouter()
-
-const CompleteStore = useCompleteStore()
-
 const back = () => router.back()
 
-const submit = () => {
-  router.push('/complete')
-  CompleteStore.update('メールアドレスの再設定', '/my-page')
+const submit = async () => {
+  // 未記入だったらメッセージ表示
+  if (!email.value || !confirmEmail.value) {
+    ElMessage.error("未入力の項目があります")
+    return 
+  }
+
+  // 文字数チェック
+  if (email.value.length > 255 || confirmEmail.value.length > 255) {
+    ElMessage.error("メールアドレスは255文字以内で入力してください。");
+    return;
+  }
+
+  // メールアドレス形式チェック（簡易）
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email.value) || !emailPattern.test(confirmEmail.value)) {
+    ElMessage.error("メールアドレスの形式が正しくありません。");
+    return;
+  }
+
+  if (email.value !== confirmEmail.value) {
+    ElMessage.error("メールアドレスが一致しません。")
+    return 
+  }
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/updateEmail', {
+      id: userStore.$state.id,
+      email: email.value,
+    })
+
+    if (response.data.success) {
+      // メールアドレス更新完了
+      router.push('/complete')
+      CompleteStore.update('メールアドレスの再設定', '/my-page')
+      userStore.updateEmail(email)
+    } else {
+      // メールアドレス更新失敗
+      ElMessage.error('メールアドレス更新に失敗しました。')
+    }
+  } catch (error) {
+    console.log("メールアドレス更新エラー:", error)
+    if (error.response.data.message) {
+      ElMessage.error(error.response.data.message)
+    } else {
+      ElMessage.error('通信エラーが発生しました。')
+    }
+  }
 }
 </script>
 
