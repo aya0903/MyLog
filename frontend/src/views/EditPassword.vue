@@ -4,19 +4,58 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCompleteStore } from '@/stores/complete'
-
-const password = ref("")
-const NewPassword = ref("")
-const ConfirmPassword = ref("")
+import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/stores/user'
+import axios from 'axios'
 
 const router = useRouter()
+const userStore = useUserStore()
 const completeStore =useCompleteStore()
+
+const password = ref("")
+const newPassword = ref("")
+const confirmPassword = ref("")
 
 const back = () => router.back()
 
-const submit = () => {
-  router.push('/complete')
-  completeStore.update('パスワードの再設定', '/my-page')
+const submit = async () => {
+  if (!password.value || !newPassword.value || !confirmPassword.value) {
+    ElMessage.error("未入力の項目があります")
+    return
+  }
+
+  if (newPassword.value !== confirmPassword.value) {
+    ElMessage.error("パスワードが一致しません。")
+    return 
+  }
+
+  if (newPassword.value.length > 255) {
+    ElMessage.error("パスワードは255文字以内で入力してください。");
+    return;
+  }
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/updatePassword', {
+      id: userStore.$state.id,
+      password: password.value,
+      newPassword: newPassword.value,
+    })
+
+    if (response.data.success) {
+      router.push('/complete')
+      completeStore.update('パスワードの再設定', '/my-page')
+      userStore.updatePassword(password)
+    } else {
+      ElMessage.error('パスワードの更新に失敗しました。')
+    }
+  } catch (error) {
+    console.log("パスワード更新エラー:", error)
+    if (error.response.data.message) {
+      ElMessage.error(error.response.data.message)
+    } else {
+      ElMessage.error('通信エラーが発生しました。')
+    }
+  }
 }
 </script>
 
@@ -27,7 +66,7 @@ const submit = () => {
 
     <el-input
       class="edit-password"
-      v-model="NewPassword"
+      v-model="newPassword"
       type="password"
       placeholder="新しいパスワード"
       show-password
@@ -35,7 +74,7 @@ const submit = () => {
 
     <el-input
       class="edit-password"
-      v-model="ConfirmPassword"
+      v-model="confirmPassword"
       type="password"
       placeholder="新しいパスワード(確認用)"
       show-password

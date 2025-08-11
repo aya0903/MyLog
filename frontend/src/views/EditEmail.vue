@@ -23,6 +23,11 @@ const submit = async () => {
     return 
   }
 
+  if (email.value !== confirmEmail.value) {
+    ElMessage.error("メールアドレスが一致しません。")
+    return 
+  }
+  
   // 文字数チェック
   if (email.value.length > 255 || confirmEmail.value.length > 255) {
     ElMessage.error("メールアドレスは255文字以内で入力してください。");
@@ -34,11 +39,6 @@ const submit = async () => {
   if (!emailPattern.test(email.value) || !emailPattern.test(confirmEmail.value)) {
     ElMessage.error("メールアドレスの形式が正しくありません。");
     return;
-  }
-
-  if (email.value !== confirmEmail.value) {
-    ElMessage.error("メールアドレスが一致しません。")
-    return 
   }
 
   try {
