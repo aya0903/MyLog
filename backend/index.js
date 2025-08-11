@@ -5,6 +5,7 @@ const loginRoutes = require("./routes/login");
 const usersServices = require("./services/users");
 const createUserServices = require("./services/createUser");
 const updateEmailServices = require("./services/updateEmail");
+const updatePasswordServices = require("./services/updatePassword");
 
 const app = express();
 const PORT = 3000;
@@ -18,6 +19,7 @@ app.use("/api/login", loginRoutes);
 app.use("/api/users", usersServices);
 app.use("/api/createUser", createUserServices);
 app.use("/api/updateEmail", updateEmailServices);
+app.use("/api/updatePassword", updatePasswordServices);
 
 // 簡単なテスト用ルート
 app.get("/", (req, res) => {

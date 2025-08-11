@@ -22,7 +22,11 @@ export const useUserStore = defineStore('user', {
     updateEmail(email) {
       this.email = email
     },
+    updatePassword(password) {
+      this.password = password
+    },
     delete() {
+      this.id = ''
       this.name = ''
       this.birthday = ''
       this.gender = ''

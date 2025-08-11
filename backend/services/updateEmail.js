@@ -22,19 +22,15 @@ router.post("/", (req, res) => {
     }
   });
 
-  // dbにinsertする処理
+  // db更新処理
   const sql = "UPDATE users SET email = ? WHERE id = ?";
-  const values = [email, id];
-
-  db.query(sql, values, (err, result) => {
+  db.query(sql, [email, id], (err, result) => {
     if (err) {
       console.error("DBエラー:", err);
-      return res
-        .status(500)
-        .json({
-          success: false,
-          message: "メールアドレスの更新に失敗しました",
-        });
+      return res.status(500).json({
+        success: false,
+        message: "メールアドレスの更新に失敗しました",
+      });
     }
 
     return res
