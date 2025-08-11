@@ -1,16 +1,17 @@
 <!-- 会員情報編集画面 -->
-
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCompleteStore } from '@/stores/complete'
-
-const name = ref("")
-const birthday = ref("")
-const gender = ref("")
+import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
 const CompleteStore = useCompleteStore()
+const userStore = useUserStore()
+
+const name = ref(userStore.$state.name)
+const birthday = ref(userStore.$state.birthday)
+const gender = ref(userStore.$state.gender)
 
 const back = () => router.back()
 
