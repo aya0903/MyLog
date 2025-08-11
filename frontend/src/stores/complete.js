@@ -16,4 +16,5 @@ export const useCompleteStore = defineStore('complete', {
       this.link = ''
     },
   },
+  persist: true,
 })

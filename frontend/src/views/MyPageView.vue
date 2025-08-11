@@ -2,19 +2,19 @@
 <script setup>
 import { ref } from 'vue'
 import { ArrowRight } from '@element-plus/icons-vue'
+import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import navigationBar from '@/components/NavigationBar.vue'
 
 const router = useRouter()
+const userStore = useUserStore()
 const showLogoutDialog = ref(false)
 
-// 仮データ
-const nickname = ref('あやちゃん')
-const birth = ref('2002/3/11')
-const gender = ref('女性')
-
-const email = ref('aya@example.com')
-const password = ref("aaaaaa")
+const name = ref(userStore.$state.name)
+const birthday = ref(userStore.$state.birthday)
+const gender = ref(userStore.$state.gender)
+const email = ref(userStore.$state.email)
+const password = ref("********")
 
 const logout = () => {
   showLogoutDialog.value = true
@@ -37,13 +37,13 @@ const EditPassword = () => router.push('/edit-password')
 
     <!-- 会員情報ボックス -->
     <p class="mt">ニックネーム</p>
-    <el-input class="" v-model="nickname"></el-input>
+    <el-input class="" v-model="name" readonly></el-input>
 
     <p class="mt">生年月日</p>
-    <el-input class="" v-model="birth"></el-input>
+    <el-input class="" v-model="birthday" readonly></el-input>
 
     <p class="mt">性別</p>
-    <el-input class="" v-model="gender"></el-input>
+    <el-input class="" v-model="gender" readonly></el-input>
 
     <div class="edit-button">
       <el-button type="primary" @click="Editregister" plain>会員情報編集</el-button>
@@ -52,7 +52,7 @@ const EditPassword = () => router.push('/edit-password')
     <!-- メールアドレスボックス -->
     <div>
       <p class="mt">メールアドレス</p>
-      <el-input class="" v-model="email">
+      <el-input class="" v-model="email" readonly>
         <template #suffix>
           <el-button
             type="text"
@@ -68,7 +68,7 @@ const EditPassword = () => router.push('/edit-password')
     <!-- パスワードボックス -->
     <div>
       <p  class="mt">パスワード</p>
-      <el-input class="" type="password" v-model="password">
+      <el-input class="" type="password" v-model="password" readonly>
         <!-- 右側に追加するスロット -->
         <template #suffix>
           <el-button
