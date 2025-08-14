@@ -3,11 +3,13 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCompleteStore } from '@/stores/complete'
+import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import axios from 'axios'
 
 const router = useRouter()
-const CompleteStore = useCompleteStore()
 const userStore = useUserStore()
+const CompleteStore = useCompleteStore()
 
 const name = ref(userStore.$state.name)
 const birthday = ref(userStore.$state.birthday)
@@ -15,9 +17,43 @@ const gender = ref(userStore.$state.gender)
 
 const back = () => router.back()
 
-const submit = () => {
-  router.push('/complete')
-  CompleteStore.update('会員情報の編集', '/my-page')
+const submit = async () => {
+  if (!name.value || !birthday.value || !gender.value) {
+    ElMessage.error("未入力の項目があります。")
+    return;
+  }
+
+  if (name.value.length > 128) {
+    ElMessage.error("ニックネームは128文字以内で入力してください。")
+    return;
+  }
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/updateRegister',{
+      id: userStore.$state.id,
+      name: name.value,
+      birthday: birthday.value,
+      gender: gender.value
+    })
+
+    if (response.data.success) {
+      userStore.updateName(name.value)
+      userStore.updateBirthday(birthday.value)
+      userStore.updateGender(gender.value) 
+
+      router.push('/complete')
+      CompleteStore.update('会員情報の編集', '/my-page')
+  } else {
+    ElMessage.error('会員情報の更新に失敗しました。')
+  }
+  } catch (error) {
+    console.log("会員情報更新エラー:", error)
+    if (error.response.data.message) {
+      ElMessage.error(error.response.data.message)
+    } else {
+      ElMessage.error('通信エラーが発生しました。')
+    }
+  }
 }
 </script>
 

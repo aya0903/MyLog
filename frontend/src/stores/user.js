@@ -25,6 +25,15 @@ export const useUserStore = defineStore('user', {
     updatePassword(password) {
       this.password = password
     },
+    updateName(name) {
+      this.name = name
+    },
+    updateBirthday(birthday) {
+      this.birthday = birthday
+    },
+    updateGender(gender) {
+      this.gender = gender
+    },
     delete() {
       this.id = ''
       this.name = ''
