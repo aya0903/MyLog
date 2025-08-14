@@ -6,6 +6,7 @@ const usersServices = require("./services/users");
 const createUserServices = require("./services/createUser");
 const updateEmailServices = require("./services/updateEmail");
 const updatePasswordServices = require("./services/updatePassword");
+const updateRegisterServices = require("./services/updateRegister");
 
 const app = express();
 const PORT = 3000;
@@ -20,6 +21,7 @@ app.use("/api/users", usersServices);
 app.use("/api/createUser", createUserServices);
 app.use("/api/updateEmail", updateEmailServices);
 app.use("/api/updatePassword", updatePasswordServices);
+app.use("/api/updateRegister", updateRegisterServices);
 
 // 簡単なテスト用ルート
 app.get("/", (req, res) => {
