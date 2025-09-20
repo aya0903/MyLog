@@ -1,33 +1,57 @@
 <!-- カテゴリー選択画面 -->
 <script setup>
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { reactive } from 'vue'
+import { useUserStore } from '@/stores/user'
 import { useCompleteStore } from '@/stores/complete'
-
-const completeStore = useCompleteStore()
+import { ElMessage } from 'element-plus'
+import axios from 'axios'
+import { useDiaryStore } from '@/stores/diary'
 
 const router = useRouter()
+const userStore = useUserStore()
+const completeStore = useCompleteStore()
+const diaryStore = useDiaryStore()
 
 const categories = ['自分', '友達', '家族', '仕事', '学校', 'お出かけ']
 
-const selectedCategory = reactive({
-  name: '',
-})
+const selectedCategory = ref(diaryStore.$state.tag)
 
 const selectCategory = (category) => {
-  selectedCategory.name = category
+  selectedCategory.value = category
 }
 
 const back = () => router.back()
 
-const submit = () => {
-  if (!selectedCategory.name) {
-    alert('なにについて？')
+const submit = async () => {
+  if (!selectedCategory.value) {
+    ElMessage.error("カテゴリーを選択してください")
     return
   }
-  router.push('/complete')
-  completeStore.update('日記の投稿', '/')
-  
+  try {
+    const response = await axios.post('http://localhost:3000/api/postDiary', {
+      user_id: userStore.id,
+      content: diaryStore.content,
+      picture: diaryStore.picture,
+      emotion: diaryStore.emotion,
+      tag: selectedCategory.value
+    })
+    if (response.data.success) {
+      diaryStore.updateTag(selectCategory.value)
+
+      router.push('/complete')
+      completeStore.update('日記の投稿', '/')
+    } else {
+      ElMessage.error('日記の投稿に失敗しました。')
+    }
+  } catch (error) {
+    console.log("日記投稿エラー:", error)
+    if (error.response.data.message) {
+      ElMessage.error(error.response?.data?.message)
+    } else {
+      ElMessage.error('通信エラーが発生しました。')
+    }
+  }
 }
 </script>
 

@@ -6,11 +6,6 @@ import NavigationBar from '@/components/NavigationBar.vue'
 
 const currentDate = ref(new Date())
 
-// const feelings = [
-//   { user_id: 1, feeling: 'red', date: '2025-06-26' },
-//   { user_id: 1, feeling: 'blue', date: '2025-06-15' },
-//   { user_id: 1, feeling: 'yellow', date: '2025-06-10' },
-// ]
 </script>
 
 <template>

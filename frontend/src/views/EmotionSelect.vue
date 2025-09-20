@@ -1,10 +1,12 @@
 <!-- 感情選択画面 -->
-
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { useDiaryStore } from '@/stores/diary'
 
 const router = useRouter()
+const diaryStore = useDiaryStore()
 
 const emotions = [
   { label: 'きらきら', color: '#8E71C7' },
@@ -16,15 +18,20 @@ const emotions = [
   { label: 'うるうる', color: '#F56C6C' },
 ]
 
-const selected = ref('')
+const selectedEmotion = ref(diaryStore.$state.emotion)
 
 const selectEmotion = (emotion) => {
-  selected.value = emotion
+  selectedEmotion.value = emotion
 }
 
 const back = () => router.back()
 
-const submit = () => {
+const next = () => {
+  if (!selectedEmotion.value) {
+    ElMessage.error("感情を選択してください")
+    return
+  }
+  diaryStore.updateEmotion(selectedEmotion.value)
   router.push('/category')
 }
 </script>
@@ -37,7 +44,7 @@ const submit = () => {
         v-for="emotion in emotions"
         :key="emotion.label"
         class="emotion-box"
-        :style="{ backgroundColor: emotion.color, border: selected === emotion.label ? '3px solid #d3d3d3' : 'none' }"
+        :style="{ backgroundColor: emotion.color, border: selectedEmotion === emotion.label ? '3px solid #d3d3d3' : 'none' }"
         @click="selectEmotion(emotion.label)"
       >
         {{ emotion.label }}
@@ -45,7 +52,7 @@ const submit = () => {
     </div>
     <div class="button-group">
       <el-button type="info" plain @click="back">戻る</el-button>
-      <el-button type="primary" plain @click="submit">次へ</el-button>
+      <el-button type="primary" plain @click="next">次へ</el-button>
     </div>
   </div>
 </template>

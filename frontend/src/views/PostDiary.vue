@@ -1,19 +1,40 @@
 <!-- 日記投稿画面 -->
-
 <script setup>
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+import { useDiaryStore } from '@/stores/diary'
 
 const router = useRouter()
+const diaryStore = useDiaryStore()
+const previewUrl = ref(null)
 
 const form = reactive({
   content: '',
-  image: null,
+  picture: null,
 })
+
+const handleBeforeUpload = (file) => {
+  previewUrl.value = URL.createObjectURL(file) // プレビュー用URL
+
+  const reader = new FileReader()
+  reader.onload = () => {
+    form.picture = reader.result
+  }
+  reader.readAsDataURL(file)
+
+  return false
+}
 
 const back = () => router.back()
 
 const next = () => {
+  if (!form.content) {
+    ElMessage.error("本文を入力してください")
+    return
+  }
+
+  diaryStore.updateContentData(form.content, form.picture)
   router.push('/emotion')
 }
 </script>
@@ -33,14 +54,15 @@ const next = () => {
         drag
         action="#"
         :show-file-list="false"
-        :before-upload="(file) => {
-          form.image = file
-          return false
-        }"
+        :before-upload="handleBeforeUpload"
       >
         <i class="el-icon-upload" />
         <div class="el-upload__text">ここに画像をドラッグするか、クリックして選択</div>
       </el-upload>
+
+      <div v-if="previewUrl" style="margin-top: 20px;">
+        <img :src="previewUrl" alt="選択した画像" style="max-width: 200px;" />
+      </div>
     </div>
 
     <div class="button-group">
