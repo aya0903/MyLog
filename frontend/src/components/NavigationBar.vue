@@ -53,7 +53,7 @@ const myPage = () => {
 
 <style scoped>
 .nav-tabs {
-  width: 100vw;
+  width: 100%;
   position: fixed;
   bottom: 0;
 }

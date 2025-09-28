@@ -1,18 +1,26 @@
 <!-- 日記詳細画面 -->
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
+import { useDiaryStore } from '../stores/diary'
 
+const diaryStore = useDiaryStore()
 const router = useRouter()
+const diary = ref([])
+const id = diaryStore.$state.id
 
-const diary = {
-  date: '2025-06-08',
-  content: '今日はとても良い一日でした。',
-  image: 'https://placekitten.com/300/200',
-  emotion: 'にこにこ',
-  category: '友達',
-}
+onMounted(async () => {
+  try {
+  const response = await axios.get(`http://localhost:3000/api/diaries/${id}`)
+  diary.value = response.data
+  console.log("取得したデータ:", response.data)
+  console.log(diary.value[0])
+  } catch (error) {
+    console.error("ユーザー取得エラー:", error)
+  }
+})
 
 const showDeleteDialog = ref(false)
 
@@ -28,16 +36,21 @@ const deleteDiary = () => {
   showDeleteDialog.value = true
 }
 
-const confirmDelete = () => {
+const confirmDelete = async () => {
+  try {
+  await axios.delete(`http://localhost:3000/api/diaries/${id}`)
+  } catch (error) {
+    console.error("日記削除エラー:", error)
+  }
   alert('削除しました')
   router.push('/')
 }
 </script>
 
 <template>
-  <div class="container">
+  <div v-for="item in diary" :key="item.id" class="container">
     <div class="top-bar">
-      <div class="date">{{ diary.date }}</div>
+      <div class="date">{{ item.day }}</div>
       <div class="actions">
         <el-button type="primary" plain @click="editDiary">編集</el-button>
         <el-button type="danger" plain @click="deleteDiary">削除</el-button>
@@ -46,14 +59,14 @@ const confirmDelete = () => {
 
     <!-- 本文と写真 -->
     <div class="content">
-      <div class="text">{{ diary.content }}</div>
-      <img v-if="diary.image" :src="diary.image" alt="日記画像" class="image" />
+      <div class="text">{{ item.content }}</div>
+      <img v-if="item.picture" :src="item.picture" alt="日記画像" class="image" />
     </div>
 
     <!-- 感情・カテゴリ -->
     <div class="tags">
-      <el-tag type="info">{{ diary.emotion }}</el-tag>
-      <el-tag type="success">{{ diary.category }}</el-tag>
+      <el-tag type="success">{{ item.emotion }}</el-tag>
+      <el-tag type="info">{{ item.tag }}</el-tag>
     </div>
 
     <!-- 下部：戻るボタン -->
@@ -80,57 +93,49 @@ const confirmDelete = () => {
 
 <style scoped>
 .container {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  padding: 20px;
 }
 
 .top-bar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px;
+  padding-top: 100px;
 }
 
 .date {
   font-size: 18px;
   font-weight: bold;
-  padding-right: 10px;
-}
-
-.actions > * {
-  margin-left: 16px;
-  margin-right: 10px;
+  padding-right: 70px;
 }
 
 .content {
-  margin: 20px 0;
   text-align: center;
-  padding: 30px;
+  padding-top: 70px;
 }
 
 .text {
-  margin-bottom: 10px;
   font-size: 16px;
+  width: 500px;
 }
 
 .image {
-  max-width: 100%;
   border-radius: 8px;
-  padding: 30px;
+  padding-top: 30px;
+  height: 300px;
+  width: 300px;
+  object-fit: contain;
 }
 
 .tags {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
   gap: 20px;
+  padding-top: 30px;
 }
+
 .center-text {
   display: block;
   text-align: center;
@@ -141,7 +146,7 @@ const confirmDelete = () => {
 .footer {
   display: flex;
   justify-content: flex-start;
-  padding: 30px;
+  padding-top: 70px;
 }
 
 .dialog-footer {

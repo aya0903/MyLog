@@ -16,7 +16,6 @@ import EditEmail from '../views/EditEmail.vue'
 import EditPassword from '../views/EditPassword.vue'
 import UrlLinks from '@/views/UrlLinks.vue'
 
-EditRegister
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

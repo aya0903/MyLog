@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -11,6 +11,6 @@ import { RouterLink, RouterView } from 'vue-router'
 <style scoped>
 /* グローバルに適用 */
 .app-container {
-  width: 100vw;
+  width: 100%;
 }
 </style>
