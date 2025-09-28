@@ -9,13 +9,13 @@ const router = useRouter()
 const diaryStore = useDiaryStore()
 
 const emotions = [
-  { label: 'きらきら', color: '#8E71C7' },
-  { label: 'うきうき', color: '#409EFF' },
-  { label: 'にこにこ', color: '#a0cfff' },
+  { label: 'きらきら', color: '#F56C6C' },
+  { label: 'うきうき', color: '#E6A23C' },
+  { label: 'にこにこ', color: '#F5D69B' },
   { label: 'ふつう', color: '#67C23A' },
-  { label: 'もやもや', color: '#F5D69B' },
-  { label: 'しょんぼり', color: '#E6A23C' },
-  { label: 'うるうる', color: '#F56C6C' },
+  { label: 'もやもや', color: '#a0cfff' },
+  { label: 'しょんぼり', color: '#409EFF' },
+  { label: 'うるうる', color: '#8E71C7' }
 ]
 
 const selectedEmotion = ref(diaryStore.$state.emotion)

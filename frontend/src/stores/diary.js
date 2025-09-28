@@ -3,12 +3,16 @@ import { defineStore } from 'pinia'
 
 export const useDiaryStore = defineStore('diary', {
   state: () => ({
+    id: '',
     content: '',
     picture: '',
     emotion: '',
     tag: '',
   }),
   actions: {
+    updateId(id) {
+      this.id = id
+    },
     updateContentData(content, picture) {
       this.content = content
       this.picture = picture
@@ -20,6 +24,7 @@ export const useDiaryStore = defineStore('diary', {
       this.tag = tag
     },
     delete() {
+      this.id = ''
       this.content = ''
       this.picture = ''
       this.emotion = ''
