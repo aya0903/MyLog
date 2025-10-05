@@ -51,10 +51,11 @@ router.delete("/:id", (req, res) => {
 
 // 特定IDのデータ更新
 router.post("/:id", (req, res) => {
+  const { content, picture, emotion, tag } = req.body;
   const id = req.params.id;
   db.query(
-    "UPDATE diaries SET content = ?, emotion = ?, tag = ?, picture = ?, WHERE id = ?",
-    [id],
+    "UPDATE diaries SET content = ?, picture = ?, emotion = ?, tag = ? WHERE id = ?",
+    [content, picture, emotion, tag, id],
     (err, results) => {
       if (err) {
         console.error("データ更新エラー:", err);
