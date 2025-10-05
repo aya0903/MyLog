@@ -87,7 +87,6 @@ const next = () => {
   gap: 50px;
   width: 100%;
   max-width: 400px;
-
 }
 
 .input-area {

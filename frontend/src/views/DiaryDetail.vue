@@ -1,5 +1,4 @@
 <!-- 日記詳細画面 -->
-
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -15,8 +14,9 @@ onMounted(async () => {
   try {
   const response = await axios.get(`http://localhost:3000/api/diaries/${id}`)
   diary.value = response.data
-  console.log("取得したデータ:", response.data)
-  console.log(diary.value[0])
+  const res = response.data[0]
+  diaryStore.update(res.id, res.content, res.picture, res.emotion, res.tag)
+  console.log("取得したデータ:", res)
   } catch (error) {
     console.error("ユーザー取得エラー:", error)
   }

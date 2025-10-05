@@ -1,24 +1,24 @@
+<!-- 日記編集画面 -->
 <script setup>
-import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
+import { useDiaryStore } from '../stores/diary'
 import { useCompleteStore } from '@/stores/complete'
 
 const router = useRouter()
+const diaryStore = useDiaryStore()
+const id = diaryStore.$state.id
 const completeStore = useCompleteStore()
 
+const content = ref(diaryStore.$state.content)
+const picture = ref(diaryStore.$state.picture)
+const emotion = ref(diaryStore.$state.emotion)
+const tag = ref(diaryStore.$state.tag)
+const previewUrl = ref(diaryStore.$state.picture)
 
-const form = reactive({
-  content: '今日は楽しい日だった！',
-  image: null,
-  imageUrl: '',
-  category: '友達',
-  emotion: 'にこにこ'
-})
-
-const categoryValue = ref('')
-const emotionValue = ref('')
-
-const categoryOptions = [
+const tagOptions = [
   {
     value: '自分',
     label: '自分',
@@ -75,68 +75,88 @@ const emotionOptions = [
   },
 ]
 
-const handleImageChange = (e) => {
-  const file = e.target.files[0]
-  form.image = file
-  if (file) {
-    form.imageUrl = URL.createObjectURL(file)
+const handleImageChange = (file) => {
+  previewUrl.value = URL.createObjectURL(file.target.files[0])
+
+  const reader = new FileReader()
+  reader.onload = () => {
+    picture.value = reader.result
   }
+  reader.readAsDataURL(file.target.files[0])
+  return false
 }
 
 const back = () => router.back()
 
-const submit = () => {
-  router.push('/complete')
-  completeStore.update('日記の編集', '/')
-}
+const submit = async () => {
+  try {
+  await axios.post(`http://localhost:3000/api/diaries/${id}`, {
+    content: content.value,
+    picture: picture.value,
+    emotion: emotion.value,
+    tag: tag.value,
+  })
+    router.push('/complete')
+    completeStore.update('日記の編集', '/')
+  } catch (error) {
+
+    console.error("日記編集エラー:", error)
+    if (error.response.data.message) {
+      ElMessage.error(error.response.data.message)
+    } else {
+      ElMessage.error('通信エラーが発生しました。')
+    }
+  }
+} 
 </script>
 
 <template>
   <div class="container">
-
-    <textarea v-model="form.content" placeholder="本文を入力" class="textarea"></textarea>
+    <el-input
+      v-model="content"
+      type="textarea"
+      :rows="6"
+      class="input-area"
+    />
 
     <input type="file" @change="handleImageChange" class="file-input" />
-
     <div class="preview">
-      <img v-if="form.imageUrl" :src="form.imageUrl" alt="選択された画像" class="preview-image" />
+      <img v-if="previewUrl" :src="previewUrl" alt="日記画像" class="preview-image" />
     </div>
-  <div class="tags">
-    <div class="tag" @click="goToCategorySelect">カテゴリー：{{ form.category }}</div>
-    <div class="tag" @click="goToEmotionSelect">感情：{{ form.emotion }}</div>
-  </div>
 
-  <div class="select-container">
-    <el-select
-      v-model="categoryValue"
-      placeholder="カテゴリー"
-      style="width: 180px"
-      >
-      <el-option
-        v-for="item in categoryOptions"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-      </el-select>
 
+    <div class="select-container">
       <el-select
-        v-model="emotionValue"
+        v-model="emotion"
         placeholder="感情"
         style="width: 180px"
-        placement="bottom-start"
-      >
-      <el-option
-        v-for="item in emotionOptions"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-      </el-select>
-  </div>
+        placement="bottom-start"      
+        >
+        <el-option
+          v-for="emotion in emotionOptions"
+          :key="emotion.value"
+          :label="emotion.label"
+          :value="emotion.value"
+        />
+        </el-select>
+  
+        <el-select
+          v-model="tag"
+          placeholder="カテゴリー"
+          style="width: 180px"
+          placement="bottom-start"
+        >
+        <el-option
+          v-for="tag in tagOptions"
+          :key="tag.value"
+          :label="tag.label"
+          :value="tag.value"
+        />
+        </el-select>
+    </div>
     <div class="buttons">
       <el-button type="info" plain @click="back">戻る</el-button>
-      <el-button type="primary" plain @click="submit">投稿</el-button>
+      <el-button type="primary" plain @click="submit">更新</el-button>
     </div>
   </div>
 </template>
@@ -144,34 +164,33 @@ const submit = () => {
 <style scoped>
 .container {
   height: 100vh;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
-  gap: 20px;
+  padding-top: 150px;
+  margin: 0 auto;
 }
 
-.textarea {
+.text {
   width: 300px;
   height: 150px;
   padding: 10px;
   resize: none;
 }
 
+.input-area {
+  width: 100%;
+}
+
 .file-input {
   margin-top: 10px;
+  padding-top: 30px;
 }
 
 .preview-image {
   max-width: 200px;
   margin-top: 10px;
-}
-
-.tags {
-  display: flex;
-  gap: 85px;
 }
 
 .tag {
@@ -183,13 +202,13 @@ const submit = () => {
 .select-container {
   display: flex;
   gap: 30px;
-  margin-bottom: 10px;
+  padding-top: 30px;
 }
 
 .buttons {
   display: flex;  
   justify-content: space-evenly;
-  width: 300px;
   padding-top: 70px;
+  width: 400px;
 }
 </style>

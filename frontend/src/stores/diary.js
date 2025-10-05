@@ -10,6 +10,13 @@ export const useDiaryStore = defineStore('diary', {
     tag: '',
   }),
   actions: {
+    update(id, content, picture, emotion, tag) {
+      this.id = id
+      this.content = content
+      this.picture = picture
+      this.emotion = emotion
+      this.tag = tag
+    },
     updateId(id) {
       this.id = id
     },
