@@ -1,11 +1,28 @@
 <!-- ログ画面 -->
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import NavigationBar from '@/components/NavigationBar.vue'
+import axios from 'axios'
+import { useUserStore } from '@/stores/user'
 
-const totalPosts = ref(12)
-const totalChars = ref(1536)
+const userStore = useUserStore()
+const userId = ref(userStore.$state.id)
+const totalPosts = ref()
+const totalChars = ref()
+
+onMounted( async () => {
+  try {
+    const response = await axios.post("http://localhost:3000/api/countDiary", {
+      user_id: userId.value
+    })
+    console.log(response.data)
+    totalPosts.value = response.data.totalPosts
+    totalChars.value = response.data.totalChars
+  }catch (error) {
+    console.error("日記数・文字数取得エラー:", error)
+  }
+})
 </script>
 
 <template>
@@ -18,7 +35,7 @@ const totalChars = ref(1536)
         <div class="value">{{ totalPosts }}</div>
       </div>
       <div class="stat-item">
-        <div class="label">文字数</div>
+        <div class="label">合計文字数</div>
         <div class="value">{{ totalChars }}</div>
       </div>
     </div>
