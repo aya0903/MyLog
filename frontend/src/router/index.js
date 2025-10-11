@@ -14,18 +14,17 @@ import MyPageView from '../views/MyPageView.vue'
 import EditRegister from '../views/EditRegister.vue'
 import EditEmail from '../views/EditEmail.vue'
 import EditPassword from '../views/EditPassword.vue'
-import UrlLinks from '@/views/UrlLinks.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: LoginView,
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: HomeView,
     },
@@ -93,11 +92,6 @@ const router = createRouter({
       path: '/edit-password',
       name: 'edit-password',
       component: EditPassword,
-    },
-    {
-      path: '/url-links',
-      name: 'url-links',
-      component: UrlLinks,
     },
   ],
 })

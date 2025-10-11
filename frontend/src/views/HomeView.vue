@@ -17,7 +17,6 @@ onMounted(async () => {
   try {
     const response = await axios.get(`http://localhost:3000/api/diaries/${userId}`)
     diaries.value = response.data
-    console.log("取得したデータ:", response.data)
   } catch (error) {
     console.error("ユーザー取得エラー:", error)
   } 

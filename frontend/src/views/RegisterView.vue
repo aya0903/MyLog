@@ -37,7 +37,7 @@ const submit = async () => {
     if (response.data.success) {
       // 会員登録成功
       router.push('/complete')
-      completeStore.update('会員登録', '/login')
+      completeStore.update('会員登録', '/')
     } else {
       // 会員登録失敗
       ElMessage.error('新規会員登録に失敗しました。')
