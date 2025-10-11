@@ -2,7 +2,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref, onMounted  } from 'vue'
+import { ref } from 'vue'
 import { useCompleteStore } from '@/stores/complete'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
@@ -13,17 +13,6 @@ const userStore = useUserStore()
 const completeStore = useCompleteStore()
 const email = ref("")
 const password = ref("")
-const users = ref([])
-
-onMounted(async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/api/users')
-    users.value = response.data
-    console.log("取得したデータ:", response.data)
-  } catch (error) {
-    console.error("ユーザー取得エラー:", error)
-  }
-})
 
 const register = () => {
   router.push('/register')

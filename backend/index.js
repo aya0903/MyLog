@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const loginRoutes = require("./routes/login");
-const usersServices = require("./services/users");
 const createUserServices = require("./services/createUser");
 const updateEmailServices = require("./services/updateEmail");
 const updatePasswordServices = require("./services/updatePassword");
@@ -21,7 +20,6 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // 各APIのルート
 app.use("/api/login", loginRoutes);
-app.use("/api/users", usersServices);
 app.use("/api/createUser", createUserServices);
 app.use("/api/updateEmail", updateEmailServices);
 app.use("/api/updatePassword", updatePasswordServices);
