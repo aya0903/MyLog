@@ -5,7 +5,7 @@ import { Calendar, House, Document, User } from '@element-plus/icons-vue'
 const router = useRouter()
 
 const home = () => {
-  router.push('/')
+  router.push('/home')
 }
 
 const log = () => {

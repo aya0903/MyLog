@@ -55,7 +55,7 @@ const EditPassword = () => router.push('/edit-password')
       <el-input class="" v-model="email" readonly>
         <template #suffix>
           <el-button
-            type="text"
+            link
             @click="EditEmail"
             class="arrow-button"
           >
@@ -72,7 +72,7 @@ const EditPassword = () => router.push('/edit-password')
         <!-- 右側に追加するスロット -->
         <template #suffix>
           <el-button
-            type="text"
+            link
             @click="EditPassword"
             class="arrow-button"
           >

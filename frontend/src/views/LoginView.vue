@@ -31,7 +31,7 @@ const submit = async () => {
 
     if (response.data.success) {
       // ログイン成功
-      completeStore.update('ログイン', '/')
+      completeStore.update('ログイン', '/home')
       router.push('/complete')
       
       // ログイン者の状態管理
