@@ -2,13 +2,11 @@
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/user'
 import { useCompleteStore } from '@/stores/complete'
 import { ElMessage } from 'element-plus'
 import axios from 'axios'
 
 const router = useRouter()
-const userStore = useUserStore()
 const completeStore = useCompleteStore()
 
 const form = reactive({
@@ -41,7 +39,6 @@ const submit = async () => {
       // 会員登録成功
       router.push('/complete')
       completeStore.update('会員登録', '/login')
-      userStore.update(form.name, form.birthday, form.gender, form.email, form.password)
     } else {
       // 会員登録失敗
       ElMessage.error('新規会員登録に失敗しました。')
