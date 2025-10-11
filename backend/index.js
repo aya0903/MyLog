@@ -8,6 +8,7 @@ const updatePasswordServices = require("./services/updatePassword");
 const updateRegisterServices = require("./services/updateRegister");
 const postDiaryServices = require("./services/postDiary");
 const diariesServices = require("./services/diaries");
+const countDiaryServices = require("./services/countDiary");
 
 const app = express();
 const PORT = 3000;
@@ -27,6 +28,7 @@ app.use("/api/updatePassword", updatePasswordServices);
 app.use("/api/updateRegister", updateRegisterServices);
 app.use("/api/postDiary", postDiaryServices);
 app.use("/api/diaries", diariesServices);
+app.use("/api/countDiary", countDiaryServices);
 
 // 簡単なテスト用ルート
 app.get("/", (req, res) => {
