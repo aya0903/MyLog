@@ -6,13 +6,17 @@ import { ref, onMounted  } from 'vue'
 import NavigationBar from '@/components/NavigationBar.vue'
 import axios from 'axios'
 import { useDiaryStore } from '../stores/diary'
+import { useUserStore } from '@/stores/user'
 
 const diaryStore = useDiaryStore()
+const userStore = useUserStore()
 const diaries = ref([])
+const userId = userStore.$state.id
+console.log(userId)
 
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/diaries')
+    const response = await axios.get(`http://localhost:3000/api/diaries/${userId}`)
     diaries.value = response.data
     console.log("取得したデータ:", response.data)
   } catch (error) {
