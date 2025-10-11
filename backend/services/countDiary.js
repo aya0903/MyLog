@@ -14,7 +14,6 @@ router.post("/", (req, res) => {
         res.status(500).json({ error: "データ取得失敗" });
       } else {
         console.log("処理開始");
-
         let totalChars = 0;
         for (const row of results) {
           const cleanText = row.content.replace(/\s/g, "");

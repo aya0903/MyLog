@@ -12,7 +12,6 @@ const diaryStore = useDiaryStore()
 const userStore = useUserStore()
 const diaries = ref([])
 const userId = userStore.$state.id
-console.log(userId)
 
 onMounted(async () => {
   try {

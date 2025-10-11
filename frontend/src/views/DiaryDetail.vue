@@ -16,7 +16,6 @@ onMounted(async () => {
   diary.value = response.data
   const res = response.data[0]
   diaryStore.update(res.id, res.content, res.picture, res.emotion, res.tag)
-  console.log("取得したデータ:", res)
   } catch (error) {
     console.error("ユーザー取得エラー:", error)
   }

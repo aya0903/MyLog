@@ -16,7 +16,6 @@ onMounted( async () => {
     const response = await axios.post("http://localhost:3000/api/countDiary", {
       user_id: userId.value
     })
-    console.log(response.data)
     totalPosts.value = response.data.totalPosts
     totalChars.value = response.data.totalChars
   }catch (error) {
@@ -42,7 +41,6 @@ onMounted( async () => {
   </div>
   <NavigationBar />
 </template>
-
 
 <style scoped>
 .log-container {

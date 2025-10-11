@@ -8,7 +8,6 @@ import axios from 'axios'
 
 const router = useRouter()
 const completeStore = useCompleteStore()
-
 const form = reactive({
   name: '',
   birthday: '',
