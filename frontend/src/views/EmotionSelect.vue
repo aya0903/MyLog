@@ -18,7 +18,7 @@ const emotions = [
   { label: 'うるうる', color: '#8E71C7' }
 ]
 
-const selectedEmotion = ref(diaryStore.$state.emotion)
+const selectedEmotion = ref("")
 
 const selectEmotion = (emotion) => {
   selectedEmotion.value = emotion
@@ -44,7 +44,7 @@ const next = () => {
         v-for="emotion in emotions"
         :key="emotion.label"
         class="emotion-box"
-        :style="{ backgroundColor: emotion.color, border: selectedEmotion === emotion.label ? '3px solid #d3d3d3' : 'none' }"
+        :style="{ backgroundColor: emotion.color, opacity: selectedEmotion === emotion.label ? '1' : '0.5' }"
         @click="selectEmotion(emotion.label)"
       >
         {{ emotion.label }}

@@ -45,7 +45,7 @@ const next = () => {
       <el-input
         v-model="form.content"
         type="textarea"
-        rows="6"
+        :rows=6
         placeholder="今日の日記を書いてください"
         class="input-area"
       />

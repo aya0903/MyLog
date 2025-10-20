@@ -20,7 +20,6 @@ const myPage = () => {
   router.push('/my-page')
 }
 
-
 </script>
 
 <template>

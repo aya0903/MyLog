@@ -73,9 +73,9 @@ const submit = async () => {
     <div class="gender">
       <div class="radio-label">性別</div>
       <el-radio-group v-model="gender" class="radio-group">
-        <el-radio label="男性" />
-        <el-radio label="女性" />
-        <el-radio label="その他" />
+        <el-radio value="男性">男性</el-radio>
+        <el-radio value="女性">女性</el-radio>
+        <el-radio value="その他">その他</el-radio>
       </el-radio-group>
     </div>
     <div class="button-group">
