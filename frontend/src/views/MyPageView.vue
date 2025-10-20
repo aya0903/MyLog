@@ -21,7 +21,7 @@ const logout = () => {
 }
 
 const confirmLogout = () => {
-  router.push('/login')
+  router.push('/')
 }
 
 const Editregister = () => router.push('/edit-register')
@@ -29,7 +29,6 @@ const EditEmail = () => router.push('/edit-email')
 const EditPassword = () => router.push('/edit-password')
 
 </script>
-
 
 <template>
   <div class="my-page">
@@ -135,6 +134,6 @@ const EditPassword = () => router.push('/edit-password')
 
 .arrow-button {
   font-weight: bold;
-  color: #606266; /* Element Plus の primary 色 */
+  color: #606266;
 }
 </style>

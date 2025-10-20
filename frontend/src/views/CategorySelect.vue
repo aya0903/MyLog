@@ -15,7 +15,7 @@ const diaryStore = useDiaryStore()
 
 const categories = ['自分', '友達', '家族', '仕事', '学校', 'お出かけ']
 
-const selectedCategory = ref(diaryStore.$state.tag)
+const selectedCategory = ref("")
 
 const selectCategory = (category) => {
   selectedCategory.value = category
@@ -40,7 +40,7 @@ const submit = async () => {
       diaryStore.updateTag(selectCategory.value)
 
       router.push('/complete')
-      completeStore.update('日記の投稿', '/')
+      completeStore.update('日記の投稿', '/home')
     } else {
       ElMessage.error('日記の投稿に失敗しました。')
     }
@@ -63,7 +63,7 @@ const submit = async () => {
         v-for="category in categories"
         :key="category"
         class="category-box"
-        :class="{ selected: selectedCategory.name === category }"
+        :style="{ backgroundColor: '#ddd', opacity: selectedCategory === category ? 1 : 0.5 }"
         @click="selectCategory(category)"
       >
         {{ category }}
@@ -99,20 +99,10 @@ const submit = async () => {
 }
 
 .category-box {
-  background-color: #ddd;
   padding: 10px;
   text-align: center;
   font-size: 15px;
   border-radius: 10px;
-}
-
-.category-box:hover {
-  background-color: #bbb;
-}
-
-.category-box.selected {
-  background-color: #87cefa;
-  color: white;
 }
 
 .button-group {

@@ -97,7 +97,7 @@ const submit = async () => {
     tag: tag.value,
   })
     router.push('/complete')
-    completeStore.update('日記の編集', '/')
+    completeStore.update('日記の編集', '/home')
   } catch (error) {
 
     console.error("日記編集エラー:", error)
@@ -107,7 +107,7 @@ const submit = async () => {
       ElMessage.error('通信エラーが発生しました。')
     }
   }
-} 
+}
 </script>
 
 <template>
@@ -123,7 +123,6 @@ const submit = async () => {
     <div class="preview">
       <img v-if="previewUrl" :src="previewUrl" alt="日記画像" class="preview-image" />
     </div>
-
 
     <div class="select-container">
       <el-select
@@ -202,7 +201,7 @@ const submit = async () => {
 .select-container {
   display: flex;
   gap: 30px;
-  padding-top: 30px;
+  padding-top: 50px;
 }
 
 .buttons {

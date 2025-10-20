@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require("../db");
 
 // 一覧データ取得
-router.get("/:userId", (req, res) => {
+router.get("/user/:userId", (req, res) => {
   const userId = req.params.userId;
   db.query(
     "SELECT * FROM diaries WHERE user_id = ?",
@@ -24,7 +24,7 @@ router.get("/:userId", (req, res) => {
 });
 
 // 特定IDのデータ取得
-router.get("/:id", (req, res) => {
+router.get("/id/:id", (req, res) => {
   const id = req.params.id;
   db.query("SELECT * FROM diaries WHERE id = ?", [id], (err, results) => {
     if (err) {

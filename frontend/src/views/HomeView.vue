@@ -15,12 +15,20 @@ const userId = userStore.$state.id
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/diaries/${userId}`)
+    const response = await axios.get(`http://localhost:3000/api/diaries/user/${userId}`)
     diaries.value = response.data
   } catch (error) {
-    console.error("ユーザー取得エラー:", error)
+    console.error("日記取得エラー:", error)
   } 
 })
+
+const formatDateToYMD = (diaryDate) => {
+  const date = new Date(diaryDate);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 const truncate = (text) => {
   if (text.length > 20) {
@@ -45,7 +53,7 @@ const submit = () => {
   <div class="home">
     <div v-for="diary in diaries" :key="diary.id" class="content">
       <div class="detail">
-        <div class="date">{{ diary.day }}</div>
+        <div class="date">{{ formatDateToYMD(diary.day) }}</div>
         <div class="text">{{ truncate(diary.content) }}</div>
       </div>
       <div class="diary-image">

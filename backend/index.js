@@ -26,6 +26,8 @@ app.use("/api/updatePassword", updatePasswordServices);
 app.use("/api/updateRegister", updateRegisterServices);
 app.use("/api/postDiary", postDiaryServices);
 app.use("/api/diaries", diariesServices);
+app.use("/api/diaries/user", diariesServices);
+app.use("/api/diaries/id", diariesServices);
 app.use("/api/countDiary", countDiaryServices);
 
 // 簡単なテスト用ルート

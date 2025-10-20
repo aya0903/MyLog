@@ -12,14 +12,22 @@ const id = diaryStore.$state.id
 
 onMounted(async () => {
   try {
-  const response = await axios.get(`http://localhost:3000/api/diaries/${id}`)
+  const response = await axios.get(`http://localhost:3000/api/diaries/id/${id}`)
   diary.value = response.data
   const res = response.data[0]
   diaryStore.update(res.id, res.content, res.picture, res.emotion, res.tag)
   } catch (error) {
-    console.error("ユーザー取得エラー:", error)
+    console.error("日記取得エラー:", error)
   }
 })
+
+const formatDateToYMD = (diaryDate) => {
+  const date = new Date(diaryDate);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 const showDeleteDialog = ref(false)
 
@@ -42,14 +50,14 @@ const confirmDelete = async () => {
     console.error("日記削除エラー:", error)
   }
   alert('削除しました')
-  router.push('/')
+  router.push('/home')
 }
 </script>
 
 <template>
   <div v-for="item in diary" :key="item.id" class="container">
     <div class="top-bar">
-      <div class="date">{{ item.day }}</div>
+      <div class="date">{{ formatDateToYMD(item.day) }}</div>
       <div class="actions">
         <el-button type="primary" plain @click="editDiary">編集</el-button>
         <el-button type="danger" plain @click="deleteDiary">削除</el-button>

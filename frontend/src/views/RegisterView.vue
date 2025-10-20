@@ -73,9 +73,9 @@ const submit = async () => {
       </el-form-item>
       <el-form-item label="性別">
         <el-radio-group v-model="form.gender">
-          <el-radio label="男性" />
-          <el-radio label="女性" />
-          <el-radio label="その他" />
+          <el-radio value="男性">男性</el-radio>
+          <el-radio value="女性">女性</el-radio>
+          <el-radio value="その他">その他</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="メールアドレス">
